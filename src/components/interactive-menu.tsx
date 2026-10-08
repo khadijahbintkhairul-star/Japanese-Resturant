@@ -1,0 +1,9 @@
+﻿"use client";
+import {useLayoutEffect,useRef,useState} from "react";
+import {gsap} from "@/lib/gsap";
+import {categories,menuItems,type Category} from "./menu-data";
+export function InteractiveMenu(){
+ const[active,setActive]=useState<Category>(categories[0]);const list=useRef<HTMLDivElement>(null);const items=menuItems.filter(item=>item.category===active);
+ useLayoutEffect(()=>{const node=list.current;if(!node||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;const ctx=gsap.context(()=>{gsap.fromTo(node.children,{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:.4,stagger:.055,ease:"power3.out"});},node);return()=>ctx.revert();},[active]);
+ return <section className="interactive-menu section-space" id="menu"><div className="container"><div className="menu-heading"><div><span className="eyebrow"><i/> THE REST OF THE GOOD STUFF</span><h2>WHAT'S IN<br/><em>THE POT?</em></h2></div><p>Pick your lane. Every bowl is made to order and disappears at a suspicious speed.</p></div><div className="menu-tabs glass" role="tablist" aria-label="Menu categories">{categories.map(category=><button type="button" role="tab" aria-selected={active===category} key={category} onClick={()=>setActive(category)} className={`menu-tab ${active===category?"is-active":""}`}>{category}</button>)}</div><div className="menu-list" ref={list}>{items.map(item=><article className="menu-row" key={item.name}><span className="menu-dot"/><div className="menu-item-copy"><h3>{item.name}{item.heat&&<span className="heat-dots">{"●".repeat(item.heat)}</span>}</h3><p>{item.description}</p></div><span className="menu-price">{item.price}</span><a className="menu-add" href={`mailto:hello@akira.example?subject=${encodeURIComponent(`Order ${item.name}`)}`} aria-label={`Ask to order ${item.name}`}>+</a></article>)}</div><p className="menu-footnote">Ask us about vegetarian options and allergens. We love a good question.</p></div></section>
+}

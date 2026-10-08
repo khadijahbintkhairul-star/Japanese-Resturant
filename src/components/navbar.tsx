@@ -1,0 +1,4 @@
+﻿"use client";
+import {useState} from "react";
+const links=[["Menu","#menu"],["About","#story"],["Ramen","#signature"],["Locations","#visit"],["Contact","#contact"]];
+export function Navbar(){const[open,setOpen]=useState(false);return <header className="site-header"><nav className="nav glass-strong" aria-label="Main navigation"><a className="wordmark" href="#top" aria-label="Akira home"><span className="wordmark-symbol">A<span>.</span></span><span className="wordmark-name">AKIRA<small>RAMEN CLUB</small></span></a><div className={`nav-links ${open?"nav-links-open":""}`}>{links.map(([label,href])=><a key={label} href={href} onClick={()=>setOpen(false)}>{label}</a>)}</div><a className="nav-cta" href="#menu">Order now <span aria-hidden="true">↗</span></a><button className="menu-toggle glass" type="button" aria-label={open?"Close navigation":"Open navigation"} aria-expanded={open} onClick={()=>setOpen(!open)}><i/><i/></button></nav></header>}
